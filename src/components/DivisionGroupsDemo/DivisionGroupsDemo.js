@@ -57,17 +57,11 @@ function DivisionGroupsDemo({ numOfItems = 12, initialNumOfGroups = 1, includeRe
               return (
                 <div key={groupIndex} className={styles.group}>
                   {range(numOfItemsPerGroup).map((index) => {
-                    const layoutId = `${id}-${groupIndex}-${index}`;
-                    console.log("Id in main group: ", layoutId);
+                    const totalInPreviousGroups = groupIndex * numOfItemsPerGroup;
+                    const layoutId = `${id}-${index + totalInPreviousGroups}`;
 
                     return (
-                      <motion.div
-                        layoutId={layoutId}
-                        idcustom={layoutId}
-                        key={layoutId}
-                        className={styles.item}
-                        transition={spring}
-                      />
+                      <motion.div layoutId={layoutId} key={layoutId} className={styles.item} transition={spring} />
                     );
                   })}
                 </div>
@@ -81,17 +75,10 @@ function DivisionGroupsDemo({ numOfItems = 12, initialNumOfGroups = 1, includeRe
             <p className={styles.remainderHeading}>Remainder Area</p>
 
             {range(remainder).map((index) => {
-              const layoutId = `${id}-${remainder + 1}-${index}`;
-              console.log("Id in remainder group: ", layoutId);
-              return (
-                <motion.div
-                  layoutId={layoutId}
-                  idcustom={layoutId}
-                  key={layoutId}
-                  className={styles.item}
-                  transition={spring}
-                />
-              );
+              const finalIndex = numOfItems - 1;
+              const layoutIndex = finalIndex - index;
+              const layoutId = `${id}-${layoutIndex}`;
+              return <motion.div layoutId={layoutId} key={layoutId} className={styles.item} transition={spring} />;
             })}
           </div>
         )}
